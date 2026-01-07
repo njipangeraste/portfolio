@@ -410,7 +410,7 @@ def home_page():
     
     with col1:
         st.markdown('<div class="skill-card">', unsafe_allow_html=True)
-        st.metric("Projets réalisés", "5+")
+        st.metric("Projets réalisés", "2")
         st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
@@ -423,10 +423,6 @@ def home_page():
         st.metric("Années d'expérience", "2+")
         st.markdown('</div>', unsafe_allow_html=True)
     
-    with col4:
-        st.markdown('<div class="skill-card">', unsafe_allow_html=True)
-        st.metric("Clients satisfaits", "100%")
-        st.markdown('</div>', unsafe_allow_html=True)
 
 # Page À propos
 def about_page():
