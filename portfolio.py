@@ -396,9 +396,6 @@ def home_page():
         """, unsafe_allow_html=True)
         
         col_btn1, col_btn2 = st.columns(2)
-        with col_btn1:
-            if st.button("🚀 Voir mes projets", use_container_width=True):
-                st.session_state.page = "projects"
         with col_btn2:
             if st.button("📄 Télécharger CV", use_container_width=True):
                 st.success("CV téléchargé avec succès!")
