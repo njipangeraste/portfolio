@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime
 import base64
+import os
 
 # Fonction pour encoder une image en base64
 def get_image_base64(image_path):
@@ -10,14 +11,67 @@ def get_image_base64(image_path):
     except FileNotFoundError:
         return None
 
+
+# Fonction pour lire un fichier binaire (ex: CV.pdf)
+def get_file_bytes(file_path):
+    try:
+        with open(file_path, "rb") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+# Recherche automatique d'un fichier CV dans le dossier du script
+def find_cv_file():
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    except NameError:
+        base_dir = os.getcwd()
+
+    # Noms candidats fréquents et heuristique
+    candidates = [
+        "CV_NJIPANG_Eraste.pdf",
+        "CV_NJIPANG_Eraste.PDF",
+        "CV_Eraste2.pdf",
+        "CV_Eraste.pdf",
+        "CV.pdf",
+        "MonCV.pdf",
+    ]
+
+    for c in candidates:
+        p = os.path.join(base_dir, c)
+        if os.path.isfile(p):
+            return p
+
+    # Heuristique: tout PDF contenant 'cv' ou 'eraste' ou 'njipang'
+    for f in os.listdir(base_dir):
+        lf = f.lower()
+        if lf.endswith('.pdf') and ("cv" in lf or "eraste" in lf or "njipang" in lf or "curriculum" in lf):
+            return os.path.join(base_dir, f)
+
+    return None
+
 # Configuration de la page
 st.set_page_config(
-    page_title="Portfolio - NJIPANG DONGMO ERASTE Développeur d'applications IA",
+        page_title="NJIPANG DONGMO Eraste — Portfolio Développeur IA | Python, Machine Learning",
     page_icon="💻",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
+# SEO / Meta tags (aide basique pour le partage et l'indexation)
+st.markdown("""
+<head>
+    <meta name="description" content="Portfolio de NJIPANG DONGMO Eraste — Développeur d'applications IA, Machine Learning et Python. Découvrez mes projets, compétences et coordonnées.">
+    <meta name="keywords" content="NJIPANG DONGMO Eraste, développeur IA, machine learning, python, portfolio, data science">
+    <meta name="author" content="NJIPANG DONGMO Eraste">
+    <meta property="og:title" content="NJIPANG DONGMO Eraste — Portfolio Développeur IA">
+    <meta property="og:description" content="Développeur IA et Machine Learning — projets en Python, TensorFlow, Keras. Découvrez mon travail et contactez-moi.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://raw.githubusercontent.com/your-username/your-repo/main/preview.png">
+    <meta name="robots" content="index, follow">
+</head>
+""", unsafe_allow_html=True)
 # Initialiser le state pour le thème
 if 'dark_mode' not in st.session_state:
     st.session_state.dark_mode = False
@@ -43,7 +97,7 @@ else:
     bg_main = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     bg_card = "#ffffff"
     text_primary = "#000205"
-    text_secondary = "#010308"
+    text_secondary = "#0F1933"
     primary_color = "#030409"
     secondary_color = "#10AC84"
     sidebar_bg = "linear-gradient(180deg, #97d7c1ff 0%, #02271aff 100%)"
@@ -54,7 +108,12 @@ else:
 def load_css():
     st.markdown(f"""
     <style>
-                 
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+    body, .stApp {{
+        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }}
+
     /* Reset et variables */
     * {{
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -306,6 +365,15 @@ def load_css():
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }}
+
+    /* Cible spécifiquement le bouton de téléchargement pour garantir contraste */
+    .stDownloadButton>button, [data-testid="stDownloadButton"] button, .stButton[data-baseweb="button"]>button {{
+        background: linear-gradient(135deg, {primary_color}, {secondary_color}) !important;
+        color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;
+        text-shadow: none !important;
+    }}
     
     /* Links */
     a {{
@@ -395,10 +463,35 @@ def home_page():
         </div>
         """, unsafe_allow_html=True)
         
+        # Social links under title
+        soc_col1, soc_col2, soc_col3 = st.columns([1,1,2])
+        with soc_col1:
+            st.link_button("🐙 GitHub", "https://github.com/njipangeraste", use_container_width=True)
+        with soc_col2:
+            st.link_button("🔗 LinkedIn", "https://www.linkedin.com/in/eraste-njipang-162162266/", use_container_width=True)
+        with soc_col3:
+            st.markdown("<div style='height:9px'></div>", unsafe_allow_html=True)
+
         col_btn1, col_btn2 = st.columns(2)
         with col_btn2:
-            if st.button("📄 Télécharger CV", use_container_width=True):
-                st.success("CV téléchargé avec succès!")
+            # Cherche automatiquement un fichier CV local
+            cv_path = find_cv_file()
+            if cv_path:
+                cv_bytes = get_file_bytes(cv_path)
+                if cv_bytes:
+                    st.download_button(
+                        label="📄 Télécharger CV",
+                        data=cv_bytes,
+                        file_name=os.path.basename(cv_path),
+                        mime="application/pdf",
+                        use_container_width=True,
+                    )
+                else:
+                    st.error("Le fichier CV a été trouvé mais impossible de le lire.")
+            else:
+                # Fallback : montrer un lien externe si le fichier local est absent
+                st.info("CV local non trouvé. Vous pouvez télécharger le CV depuis un lien externe.")
+                st.markdown("[Voir/ Télécharger mon CV en ligne](https://example.com/cv.pdf)")
     
     st.markdown("---")
     
@@ -524,10 +617,10 @@ def projects_page():
             "demo": "https://demo-ia-reconnaissance.streamlit.app"
         },
         {
-            "title": "📱 Application Mobile Innovante",
-            "description": "Participation complète au cycle de vie d'une application mobile innovante chez FAGICIEL. Contribution à la conception fonctionnelle, optimisation UI, développement backend avec PHP/Laravel, intégration front-end et tests en Agile.",
-            "tech": ["PHP", "Laravel", "JavaScript"],
-            "github": "https://github.com",
+            "title": "📱 Application Desktop",
+            "description": "Divertissez-vous avec un jeu de balle captivant developpe en JAVA ",
+            "tech": ["Java", "Java swing", "Java awt"],
+            "github": "https://github.com/njipangeraste/Jeu-de-balle-en-JAVA",
             "demo": "https://demo-mobile-fagiciel.example.com"
         },
         {
