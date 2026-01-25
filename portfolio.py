@@ -56,7 +56,7 @@ st.set_page_config(
         page_title="NJIPANG DONGMO Eraste — Portfolio Développeur IA | Python, Machine Learning",
     page_icon="💻",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"  # mobile friendly
 )
 
 # SEO / Meta tags (aide basique pour le partage et l'indexation)
@@ -152,6 +152,15 @@ def load_css():
     .skill-card h4 {{
         color: {primary_color};
         margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem; /* réduit l'espacement entre logo et texte */
+    }}
+    .skill-logo {{
+        width: 18px;  /* réduit la taille du logo */
+        height: 18px; /* réduit la taille du logo */
+        object-fit: contain;
+        border-radius: 4px;
     }}
     
     .skill-card p {{
@@ -385,6 +394,56 @@ def load_css():
         color: white !important;
     }}
     
+    /* Profile image */
+    .profile-img {{
+        width: 290px;
+        height: 300px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: auto;
+    }}
+    
+    .profile-img img {{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }}
+    
+        /* Responsive design */
+    @media (max-width: 768px) {{
+        .custom-title {{
+            font-size: 2rem;
+            text-align: center;
+        }}
+        .subtitle {{
+            font-size: 1rem;
+            text-align: center;
+        }}
+        .section-container {{
+            padding: 1.2rem;
+        }}
+        .profile-img {{
+            width: 170px !important;
+            height: 170px !important;
+        }}
+        p, li {{
+            font-size: .95rem;
+            line-height: 1.6;
+        }}
+        .skill-card {{
+            padding: 1rem;
+        }}
+        .project-card {{
+            padding: 1.5rem;
+        }}
+        .timeline-item {{
+            padding-left: 1rem;
+        }}
+        .skill-logo {{
+            width: 16px;  /* encore plus petit sur mobile */
+            height: 16px;
+        }}
+        }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -431,19 +490,8 @@ def home_page():
         image_base64 = get_image_base64("My_Photo.jpeg")
         if image_base64:
             st.markdown(f"""
-                <div style="
-                    width:290px;
-                    height:300px;
-                    border-radius:100%;
-                    overflow:hidden;
-                    margin:auto;
-                ">
-                    <img src="data:image/jpeg;base64,{image_base64}"
-                        style="
-                            width:100%;
-                            height:100%;
-                            object-fit:cover;
-                        ">
+                <div class="profile-img">
+                    <img src="data:image/jpeg;base64,{image_base64}">
                 </div>
                 """, unsafe_allow_html=True)
         else:
@@ -466,9 +514,9 @@ def home_page():
         # Social links under title
         soc_col1, soc_col2, soc_col3 = st.columns([1,1,2])
         with soc_col1:
-            st.link_button("🐙 GitHub", "https://github.com/njipangeraste", use_container_width=True)
+            st.markdown('<a href="https://github.com/njipangeraste"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" width="150" height="auto" alt="GitHub"></a>', unsafe_allow_html=True)
         with soc_col2:
-            st.link_button("🔗 LinkedIn", "https://www.linkedin.com/in/eraste-njipang-162162266/", use_container_width=True)
+            st.markdown('<a href="https://www.linkedin.com/in/eraste-njipang-162162266/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" width="150" height="auto" alt="LinkedIn"></a>', unsafe_allow_html=True)
         with soc_col3:
             st.markdown("<div style='height:9px'></div>", unsafe_allow_html=True)
 
@@ -585,6 +633,31 @@ def skills_page():
             ("Adaptabilité et curiosité des nouvelles technologies", "Expert", "🚀")
         ]
     }
+
+    skill_logos = {
+        "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+        "PHP": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        "MySQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+        "Oracle": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
+        "React Native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "Node.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        "Express.js": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+        "Laravel": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+        "TensorFlow": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
+        "Keras": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/keras/keras-original.svg",
+        "Scikit-learn": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg",
+        "Pandas": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
+        "Numpy": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+        "Git/Github": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        "Pycharm": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pycharm/pycharm-original.svg",
+        "VS Code": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        "IntelliJ": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg",
+        "Oracle Sql Developer": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
+        "Oracle XE": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
+        "Oracle Sql Developer Data Modeler": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
+    }
     
     for category, skills in skills_data.items():
         st.markdown(f"### {category}")
@@ -592,9 +665,14 @@ def skills_page():
         
         for idx, (skill, description, icon) in enumerate(skills):
             with cols[idx % 2]:
+                logo_url = skill_logos.get(skill)
+                label_html = (
+                    f'<img class="skill-logo" src="{logo_url}" alt="{skill} logo"> {skill}'
+                    if logo_url else f'{icon} {skill}'
+                )
                 st.markdown(f"""
                 <div class="skill-card">
-                    <h4>{icon} {skill}</h4>
+                    <h4>{label_html}</h4>
                     <p style="margin: 0;">{description}</p>
                 </div>
                 """, unsafe_allow_html=True)
@@ -649,7 +727,7 @@ def projects_page():
         with col2:
             col_gh, col_demo = st.columns(2)
             with col_gh:
-                st.link_button("🔗 GitHub", project['github'], use_container_width=True)
+                st.markdown(f"[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]({project['github']})", unsafe_allow_html=True)
             with col_demo:
                 st.link_button("🚀 Démo", project['demo'], use_container_width=True)
                 
@@ -774,7 +852,7 @@ def contact_page():
         <div class="skill-card" style="text-align: center;">
             <h3>💼</h3>
             <h4>LinkedIn</h4>
-            <p>linkedin.com/Eraste-Njipang</p>
+            <p>[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/eraste-njipang-162162266/)</p>
         </div>
         """, unsafe_allow_html=True)
     
