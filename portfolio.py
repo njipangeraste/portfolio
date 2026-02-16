@@ -809,29 +809,81 @@ def contact_page():
     Que vous ayez un projet en tête, une opportunité professionnelle ou simplement envie d'échanger 
     sur la tech et l'IA, n'hésitez pas à me contacter. Je réponds généralement sous 24h.
     """)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        name = st.text_input("Nom complet *")
-        email = st.text_input("Email *")
-    
-    with col2:
-        subject = st.text_input("Sujet *")
-        phone = st.text_input("Téléphone (optionnel)")
-    
-    message = st.text_area("Votre message *", height=150)
-    
-    col_submit, col_reset = st.columns([1, 4])
-    
-    with col_submit:
-        if st.button("📧 Envoyer", use_container_width=True):
-            if name and email and subject and message:
-                st.success("✅ Message envoyé avec succès! Je vous répondrai bientôt.")
+
+    # ────────────────────────────────────────────────
+    # Formulaire de contact
+    # ────────────────────────────────────────────────
+    with st.form(key="contact_form", clear_on_submit=True):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            name = st.text_input("Nom complet *", key="name")
+            email = st.text_input("Email *", key="email")
+        
+        with col2:
+            subject = st.text_input("Sujet *", key="subject")
+            phone = st.text_input("Téléphone (optionnel)", key="phone")
+        
+        message = st.text_area("Votre message *", height=150, key="message")
+        
+        submit_button = st.form_submit_button("📧 Envoyer", use_container_width=True, type="primary")
+
+    if submit_button:
+        if not (name.strip() and email.strip() and subject.strip() and message.strip()):
+            st.error("❌ Veuillez remplir tous les champs obligatoires")
+        else:
+            # ────────────────────────────────────────────────
+            # Tentative d'envoi de l'email
+            # ────────────────────────────────────────────────
+            try:
+                # Récupération des identifiants (priorité : secrets → variables d'environnement)
+                sender_email = st.secrets.get("email", os.getenv("EMAIL_ADDRESS"))
+                sender_password = st.secrets.get("password", os.getenv("EMAIL_PASSWORD"))
+                receiver_email = "enjipang@gmail.com"  # ton adresse de réception
+
+                if not sender_email or not sender_password:
+                    raise ValueError("Identifiants email non configurés (secrets ou variables d'environnement manquantes)")
+
+                # Construction du message
+                msg = MIMEMultipart()
+                msg["From"] = f"{name} <{email}>"
+                msg["To"] = receiver_email
+                msg["Subject"] = subject
+
+                body = f"""
+Nouveau message depuis ton portfolio !
+
+Nom          : {name}
+Email        : {email}
+Téléphone    : {phone if phone else "non renseigné"}
+Sujet        : {subject}
+
+Message :
+─────────────────────────────────
+{message}
+─────────────────────────────────
+Envoyé le : {st.session_state.get('current_time', 'date inconnue')}
+                """
+
+                msg.attach(MIMEText(body, "plain", "utf-8"))
+
+                # Connexion et envoi via Gmail SMTP
+                with smtplib.SMTP("smtp.gmail.com", 587) as server:
+                    server.starttls()
+                    server.login(sender_email, sender_password)
+                    server.send_message(msg)
+
+                st.success("✅ Message envoyé avec succès ! Je te répondrai dès que possible.")
                 st.balloons()
-            else:
-                st.error("❌ Veuillez remplir tous les champs obligatoires")
-    
+
+            except smtplib.SMTPAuthenticationError:
+                st.error("❌ Erreur d'authentification Gmail. Vérifie ton mot de passe d'application (App Password).")
+            except Exception as e:
+                st.error(f"❌ Une erreur est survenue lors de l'envoi :\n{str(e)}")
+
+    # ────────────────────────────────────────────────
+    # Coordonnées alternatives
+    # ────────────────────────────────────────────────
     st.markdown("---")
     
     st.markdown("### 🔗 Autres moyens de me contacter")
@@ -852,7 +904,9 @@ def contact_page():
         <div class="skill-card" style="text-align: center;">
             <h3>💼</h3>
             <h4>LinkedIn</h4>
-            <p>[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/eraste-njipang-162162266/)</p>
+            <a href="https://www.linkedin.com/in/eraste-njipang-162162266/" target="_blank" style="color: #0a66c2; text-decoration: none;">
+                Mon profil LinkedIn
+            </a>
         </div>
         """, unsafe_allow_html=True)
     
