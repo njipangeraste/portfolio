@@ -3,6 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import base64
 
 # Fonction pour encoder une image en base64
 def get_image_base64(image_path):
