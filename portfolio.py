@@ -1,6 +1,7 @@
 import streamlit as st
-from datetime import datetime
-import base64
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import os
 
 # Fonction pour encoder une image en base64
@@ -851,18 +852,18 @@ def contact_page():
                 msg["Subject"] = subject
 
                 body = f"""
-Nouveau message depuis ton portfolio !
+                Nouveau message depuis ton portfolio !
 
-Nom          : {name}
-Email        : {email}
-Téléphone    : {phone if phone else "non renseigné"}
-Sujet        : {subject}
+                Nom          : {name}
+                Email        : {email}
+                Téléphone    : {phone if phone else "non renseigné"}
+                Sujet        : {subject}
 
-Message :
-─────────────────────────────────
-{message}
-─────────────────────────────────
-Envoyé le : {st.session_state.get('current_time', 'date inconnue')}
+                Message :
+                ─────────────────────────────────
+                {message}
+                ─────────────────────────────────
+                Envoyé le : {st.session_state.get('current_time', 'date inconnue')}
                 """
 
                 msg.attach(MIMEText(body, "plain", "utf-8"))
