@@ -61,7 +61,7 @@ def inject_css():
     try:
         with open("style.css", "r", encoding="utf-8") as f:
             css = f.read()
-            st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+            st.html(f"<style>{css}</style>")
     except FileNotFoundError:
         st.error("style.css non trouvé.")
 
@@ -93,11 +93,11 @@ def render_nav():
         short = label.split(" ", 1)[1]
         links_html += f'<a class="{active}" href="?page={key}" target="_self">{short}</a>'
 
-    st.markdown(f"""<nav class="pf-nav">
+    st.html(f"""<nav class="pf-nav">
 <div class="pf-logo">NJIPANG <em>ERASTE</em></div>
 <div class="pf-nav-links">{links_html}</div>
 <div class="pf-avail"><div class="pf-dot"></div>Disponible pour projets</div>
-</nav>""", unsafe_allow_html=True)
+</nav>""")
 
 
 # ──────────────────────────────────────────────
@@ -136,7 +136,7 @@ if current == "home":
         else '<div class="profile-placeholder">NE</div>'
     )
 
-    st.markdown(f"""<div class="pf-section active">
+    st.html(f"""<div class="pf-section active">
 <div class="hero">
 <div class="hero-left">
 <div class="hero-tag">Basé à Douala, Cameroun</div>
@@ -178,7 +178,7 @@ Je conçois des solutions innovantes en transformant les données en outils déc
 </div>
 </div>
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
     # ── CV download ───────────────────────────────────────────────────────────
     cv_path  = find_cv_file()
@@ -228,7 +228,7 @@ Je conçois des solutions innovantes en transformant les données en outils déc
 # PAGE : ABOUT
 # ══════════════════════════════════════════════
 elif current == "about":
-    st.markdown("""<div class="pf-section active">
+    st.html("""<div class="pf-section active">
 <div class="section-inner">
 <span class="eyebrow">Mon Profil</span>
 <h2 class="section-title">Passionné par l'innovation technologique</h2>
@@ -268,7 +268,7 @@ concrètes, alliant performance backend et expérience utilisateur fluide.
 </div>
 </div>
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 
 # ══════════════════════════════════════════════
@@ -311,7 +311,7 @@ elif current == "skills":
         skill_card("https://cdn.simpleicons.org/jira/0052CC", "Agile (Jira/Slack)", 85),
     ])
 
-    st.markdown(f"""<div class="pf-section active">
+    st.html(f"""<div class="pf-section active">
 <div class="section-inner">
 <span class="eyebrow">Expertise</span>
 <h2 class="section-title">Compétences Techniques</h2>
@@ -324,7 +324,7 @@ elif current == "skills":
 <div class="skills-cat-title">Bases de Données & Outils</div>
 <div class="skills-grid">{db_cards}</div>
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 
 # ══════════════════════════════════════════════
@@ -372,13 +372,13 @@ elif current == "projects":
         "https://github.com/njipangeraste",
     )
 
-    st.markdown(f"""<div class="pf-section active">
+    st.html(f"""<div class="pf-section active">
 <div class="section-inner">
 <span class="eyebrow">Portfolio</span>
 <h2 class="section-title">Projets Sélectionnés</h2>
 {p1}{p2}{p3}
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 
 # ══════════════════════════════════════════════
@@ -418,7 +418,7 @@ elif current == "experience":
     ed2 = edu_item("2023 – 2024", "BTS Génie Logiciel", "Institut Universitaire du Golfe de Guinée")
     ed3 = edu_item("2020 – 2021", "Baccalauréat TI", "Lycée Classique de Bangangté")
 
-    st.markdown(f"""<div class="pf-section active">
+    st.html(f"""<div class="pf-section active">
 <div class="section-inner">
 <span class="eyebrow">Parcours</span>
 <h2 class="section-title">Expériences & Éducation</h2>
@@ -431,7 +431,7 @@ elif current == "experience":
 {ed1}{ed2}{ed3}
 </div>
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 
 # ══════════════════════════════════════════════
@@ -473,7 +473,7 @@ elif current == "contact":
             return False, str(exc)
 
     # ── UI ────────────────────────────────────────────────────────────────────
-    st.markdown("""<div class="pf-section active">
+    st.html("""<div class="pf-section active">
 <div class="section-inner">
 <span class="eyebrow">Contact</span>
 <h2 class="section-title">Discutons de votre projet</h2>
@@ -513,7 +513,7 @@ eraste-njipang ↗
 </div>
 <div style="max-width:1080px; margin: 0 auto; padding: 0 3rem 2rem;">
 <div class="skills-cat-title">Envoyer un message</div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
     if "form_sent" not in st.session_state:
         st.session_state.form_sent = False
@@ -582,8 +582,7 @@ eraste-njipang ↗
                         f"?subject={urllib.parse.quote(subject)}"
                         f"&body={body}"
                     )
-                    st.markdown(f'<meta http-equiv="refresh" content="0;url={mailto}">',
-                                unsafe_allow_html=True)
+                    st.html(f'<meta http-equiv="refresh" content="0;url={mailto}">')
                     st.info(
                         "⚠️ Formspree non configuré — votre client email s'ouvre.\n\n"
                         "Pour activer l'envoi automatique, renseignez `FORMSPREE_ID` dans le code."
@@ -592,10 +591,8 @@ eraste-njipang ↗
 # ──────────────────────────────────────────────
 # GLOBAL FOOTER
 # ──────────────────────────────────────────────
-st.markdown("""
-<footer class="pf-footer">
-  <div class="pf-footer-logo">NJIPANG <em>ERASTE</em></div>
-  <p style="margin-bottom: 2rem; opacity: 0.7;">Développeur IA & Python passionné par l'innovation.</p>
-  <div class="pf-footer-copy">© 2026 NJIPANG DONGMO Eraste — Tous droits réservés</div>
-</footer>
-""", unsafe_allow_html=True)
+st.html("""<footer class="pf-footer">
+<div class="pf-footer-logo">NJIPANG <em>ERASTE</em></div>
+<p style="margin-bottom: 2rem; opacity: 0.7;">Développeur IA & Python passionné par l'innovation.</p>
+<div class="pf-footer-copy">© 2026 NJIPANG DONGMO Eraste — Tous droits réservés</div>
+</footer>""")
