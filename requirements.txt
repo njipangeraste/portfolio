@@ -5,5 +5,4 @@ pandas
 numpy
 scikit-learn
 matplotlib
-tensorflow
 streamlit-option-menu
