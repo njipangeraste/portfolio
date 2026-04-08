@@ -331,13 +331,14 @@ elif current == "skills":
 # PAGE : PROJECTS
 # ══════════════════════════════════════════════
 elif current == "projects":
-    def project_card(num, category, title, desc, tags, github_url, demo_url=None):
+    def project_card(num, category, title, goal, desc, tags, github_url, img_src, demo_url=None):
         tags_html = "".join(f'<span class="tag">{t}</span>' for t in tags)
         demo_btn  = f'<a class="btn-outline" href="{demo_url}" target="_blank">Démo Live</a>' if demo_url else ""
         return f"""<div class="project-item">
 <div class="project-content">
 <div class="project-num">{num} — {category}</div>
 <h3 class="project-title">{title}</h3>
+<div class="project-goal"><em>But du projet</em>{goal}</div>
 <p class="project-desc">{desc}</p>
 <div class="project-tags">{tags_html}</div>
 <div style="display: flex; gap: 10px;">
@@ -345,31 +346,37 @@ elif current == "projects":
 {demo_btn}
 </div>
 </div>
-<div class="project-image-placeholder">
-{title}
+<div class="project-image-container">
+<img src="{img_src}" class="project-image" alt="{title}">
 </div>
 </div>"""
 
     p1 = project_card(
         "01", "Intelligence Artificielle",
-        "DeepVision — Reconnaissance d'images",
-        "Solution hybride (Web & Mobile) exploitant le Deep Learning pour la classification d'images en temps réel. Intègre TensorFlow et Keras pour des prédictions haute précision.",
-        ["Python", "TensorFlow", "React Native", "FastAPI"],
+        "DeepVision — Système de Reconnaissance d'Images",
+        "Automatiser l'identification d'objets et de scènes complexes pour optimiser le tri de grands volumes de données visuelles.",
+        "Développement d'une architecture CNN avec TensorFlow/Keras atteignant 92% de précision. Backend FastAPI pour un traitement ultra-rapide et interface mobile React Native pour une accessibilité totale.",
+        ["Python", "TensorFlow", "FastAPI", "React Native"],
         "https://github.com/njipangeraste",
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
     )
     p2 = project_card(
-        "02", "Desktop App",
-        "Swing Ball Game",
-        "Jeu d'arcade performant développé en Java. Gestion avancée des collisions, moteur physique personnalisé et interface fluide avec Swing/AWT.",
-        ["Java", "Swing", "AWT", "OOP"],
+        "02", "Desktop Game",
+        "Swing Ball Arcade Game",
+        "Concevoir une expérience ludique interactive mettant en œuvre des calculs physiques complexes en temps réel.",
+        "Implémentation d'un moteur physique personnalisé pour les collisions et les rebonds dynamiques sous Java. Interface graphique optimisée avec Swing et AWT pour une fluidité maximale.",
+        ["Java", "Swing", "AWT", "Physics Engine"],
         "https://github.com/njipangeraste/Jeu-de-balle-en-JAVA",
+        "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800"
     )
     p3 = project_card(
         "03", "Fullstack Web",
-        "ISDEV Experts Portal",
-        "Plateforme web d'entreprise avec Server Side Rendering (SSR). Optimisation SEO, interfaces ultra-réactives avec Tailwind CSS et déploiement continu sur Vercel.",
-        ["Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
+        "ISDEV Experts — Portail Collaboratif",
+        "Faciliter la mise en relation et la gestion des experts métier au sein d'une organisation pour une meilleure gestion de projet.",
+        "Architecture Next.js avec Server Side Rendering (SSR) pour un SEO parfait. Interface responsive avec Tailwind CSS et déploiement continu via Vercel pour une maintenance simplifiée.",
+        ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
         "https://github.com/njipangeraste",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
     )
 
     st.html(f"""<div class="pf-section active">
