@@ -355,7 +355,7 @@ elif current == "projects":
         "01", "Intelligence Artificielle",
         "DeepVision — Système de Reconnaissance d'Images",
         "Automatiser l'identification d'objets et de scènes complexes pour optimiser le tri de grands volumes de données visuelles.",
-        "Développement d'une architecture CNN avec TensorFlow/Keras atteignant 92% de précision. Backend FastAPI pour un traitement ultra-rapide et interface mobile React Native pour une accessibilité totale.",
+        "Développement d'une architecture CNN avec TensorFlow/Keras atteignant 92% de précision. Backend FastAPI pour un traitement ultra-rapide et interface mobile React Native pour une accessibilité totale. NB: ce projet est privé dans mon compte GITHUB",
         ["Python", "TensorFlow", "FastAPI", "React Native"],
         "https://github.com/njipangeraste",
         "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
@@ -364,7 +364,7 @@ elif current == "projects":
         "02", "Desktop Game",
         "Swing Ball Arcade Game",
         "Concevoir une expérience ludique interactive mettant en œuvre des calculs physiques complexes en temps réel.",
-        "Implémentation d'un moteur physique personnalisé pour les collisions et les rebonds dynamiques sous Java. Interface graphique optimisée avec Swing et AWT pour une fluidité maximale.",
+        "Implémentation d'un moteur physique personnalisé pour les collisions et les rebonds dynamiques sous Java. Interface graphique optimisée avec Swing et AWT pour une fluidité maximale. NB: ce projet est privé dans mon compte GITHUB",
         ["Java", "Swing", "AWT", "Physics Engine"],
         "https://github.com/njipangeraste/Jeu-de-balle-en-JAVA",
         "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800"
@@ -373,7 +373,7 @@ elif current == "projects":
         "03", "Fullstack Web",
         "ISDEV Experts — Portail Collaboratif",
         "Faciliter la mise en relation et la gestion des experts métier au sein d'une organisation pour une meilleure gestion de projet.",
-        "Architecture Next.js avec Server Side Rendering (SSR) pour un SEO parfait. Interface responsive avec Tailwind CSS et déploiement continu via Vercel pour une maintenance simplifiée.",
+        "Architecture Next.js avec Server Side Rendering (SSR) pour un SEO parfait. Interface responsive avec Tailwind CSS et déploiement continu via Vercel pour une maintenance simplifiée. NB: ce projet est privé dans mon compte GITHUB",
         ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
         "https://github.com/njipangeraste",
         "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
